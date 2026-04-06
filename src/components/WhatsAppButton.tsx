@@ -1,8 +1,8 @@
 import { MessageCircle } from "lucide-react";
 
 export default function WhatsAppButton() {
-  const message = encodeURIComponent("Hello, I want to place an order from Hot & Spicy.");
-  const phone = "923001234567";
+  const message = encodeURIComponent("Hello, I want to place an order from Walkano.");
+  const phone = "92300123457";
 
   return (
     <a
