@@ -1,12 +1,13 @@
 import { useState } from "react";
 import { useCart } from "@/context/CartContext";
 import { motion } from "framer-motion";
-import { CheckCircle, XCircle, ArrowLeft } from "lucide-react";
+import { CheckCircle, ArrowLeft } from "lucide-react";
 import { Link } from "react-router-dom";
 
-type Status = "form" | "success" | "failure";
+type Status = "form" | "success";
 
 const paymentMethods = ["Cash on Delivery", "Credit/Debit Card", "PayFast", "Stripe", "JazzCash", "Easypaisa"];
+const cities = ["Rawalpindi", "Islamabad"];
 
 export default function CheckoutPage() {
   const { items, total, clearCart } = useCart();
@@ -20,8 +21,7 @@ export default function CheckoutPage() {
     if (!form.name || !form.phone || !form.address) return;
     if (items.length === 0) return;
 
-    // Simulate order
-    const id = "HS-" + Math.random().toString(36).substring(2, 8).toUpperCase();
+    const id = "WK-" + Math.random().toString(36).substring(2, 8).toUpperCase();
     setOrderId(id);
     setStatus("success");
     clearCart();
@@ -35,7 +35,8 @@ export default function CheckoutPage() {
           <h2 className="font-heading text-2xl font-bold text-foreground mb-2">Order Confirmed!</h2>
           <p className="text-muted-foreground font-body mb-1">Order ID: <strong className="text-primary">{orderId}</strong></p>
           <p className="text-muted-foreground font-body mb-1">Payment: {payment}</p>
-          <p className="text-muted-foreground font-body mb-6">Estimated delivery: <strong className="text-foreground">30-45 minutes</strong></p>
+          <p className="text-muted-foreground font-body mb-2">Estimated delivery: <strong className="text-foreground">25-40 minutes</strong></p>
+          <p className="text-muted-foreground font-body text-sm mb-6">Your order has been successfully placed. Our team will contact you shortly.</p>
           <Link to="/menu" className="inline-flex items-center gap-2 bg-gradient-gold text-primary-foreground px-6 py-3 rounded-lg font-body font-bold hover:opacity-90 transition-opacity">
             <ArrowLeft className="h-4 w-4" /> Order More
           </Link>
@@ -57,14 +58,15 @@ export default function CheckoutPage() {
             </div>
           ) : (
             <div className="grid md:grid-cols-5 gap-8">
-              {/* Form */}
               <form onSubmit={handleSubmit} className="md:col-span-3 space-y-6">
                 <div className="bg-card border border-gold/10 rounded-xl p-6 space-y-4">
                   <h3 className="font-heading font-bold text-foreground text-lg">Delivery Details</h3>
                   <input value={form.name} onChange={e => setForm(p => ({ ...p, name: e.target.value }))} placeholder="Full Name" required className="w-full bg-secondary/50 border border-gold/10 rounded-lg px-4 py-3 font-body text-sm text-foreground placeholder:text-muted-foreground focus:outline-none focus:ring-2 focus:ring-primary/50" />
-                  <input value={form.phone} onChange={e => setForm(p => ({ ...p, phone: e.target.value }))} placeholder="Phone Number" required className="w-full bg-secondary/50 border border-gold/10 rounded-lg px-4 py-3 font-body text-sm text-foreground placeholder:text-muted-foreground focus:outline-none focus:ring-2 focus:ring-primary/50" />
-                  <input value={form.address} onChange={e => setForm(p => ({ ...p, address: e.target.value }))} placeholder="Full Address" required className="w-full bg-secondary/50 border border-gold/10 rounded-lg px-4 py-3 font-body text-sm text-foreground placeholder:text-muted-foreground focus:outline-none focus:ring-2 focus:ring-primary/50" />
-                  <input value={form.city} onChange={e => setForm(p => ({ ...p, city: e.target.value }))} placeholder="City" className="w-full bg-secondary/50 border border-gold/10 rounded-lg px-4 py-3 font-body text-sm text-foreground placeholder:text-muted-foreground focus:outline-none focus:ring-2 focus:ring-primary/50" />
+                  <input value={form.phone} onChange={e => setForm(p => ({ ...p, phone: e.target.value }))} placeholder="Phone Number (+92...)" required className="w-full bg-secondary/50 border border-gold/10 rounded-lg px-4 py-3 font-body text-sm text-foreground placeholder:text-muted-foreground focus:outline-none focus:ring-2 focus:ring-primary/50" />
+                  <input value={form.address} onChange={e => setForm(p => ({ ...p, address: e.target.value }))} placeholder="Full Delivery Address" required className="w-full bg-secondary/50 border border-gold/10 rounded-lg px-4 py-3 font-body text-sm text-foreground placeholder:text-muted-foreground focus:outline-none focus:ring-2 focus:ring-primary/50" />
+                  <select value={form.city} onChange={e => setForm(p => ({ ...p, city: e.target.value }))} className="w-full bg-secondary/50 border border-gold/10 rounded-lg px-4 py-3 font-body text-sm text-foreground focus:outline-none focus:ring-2 focus:ring-primary/50">
+                    {cities.map(c => <option key={c} value={c}>{c}</option>)}
+                  </select>
                 </div>
 
                 <div className="bg-card border border-gold/10 rounded-xl p-6 space-y-3">
@@ -83,7 +85,6 @@ export default function CheckoutPage() {
                 </button>
               </form>
 
-              {/* Order Summary */}
               <div className="md:col-span-2">
                 <div className="bg-card border border-gold/10 rounded-xl p-6 sticky top-24">
                   <h3 className="font-heading font-bold text-foreground text-lg mb-4">Order Summary</h3>

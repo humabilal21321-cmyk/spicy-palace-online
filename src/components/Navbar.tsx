@@ -1,15 +1,16 @@
 import { useState } from "react";
 import { Link, useLocation } from "react-router-dom";
-import { ShoppingCart, Menu, X, Flame } from "lucide-react";
+import { ShoppingCart, Menu, X, UtensilsCrossed } from "lucide-react";
 import { useCart } from "@/context/CartContext";
 import { motion, AnimatePresence } from "framer-motion";
 
 const navLinks = [
   { name: "Home", href: "/" },
   { name: "Menu", href: "/menu" },
+  { name: "Featured Dishes", href: "/#featured" },
   { name: "About", href: "/#about" },
+  { name: "Testimonials", href: "/#testimonials" },
   { name: "Reservation", href: "/#reservation" },
-  { name: "Gallery", href: "/#gallery" },
   { name: "Contact", href: "/#contact" },
 ];
 
@@ -34,12 +35,12 @@ export default function Navbar() {
     <nav className="fixed top-0 left-0 right-0 z-50 bg-background/90 backdrop-blur-md border-b border-gold/20">
       <div className="container mx-auto px-4 flex items-center justify-between h-16 md:h-20">
         <Link to="/" className="flex items-center gap-2">
-          <Flame className="h-7 w-7 text-primary" />
-          <span className="font-heading text-xl md:text-2xl font-bold text-gradient-gold">Hot & Spicy</span>
+          <UtensilsCrossed className="h-7 w-7 text-primary" />
+          <span className="font-heading text-xl md:text-2xl font-bold text-gradient-gold">Walkano</span>
         </Link>
 
         {/* Desktop */}
-        <div className="hidden md:flex items-center gap-8">
+        <div className="hidden md:flex items-center gap-6">
           {navLinks.map(link => (
             link.href.startsWith("/#") ? (
               <button key={link.name} onClick={() => handleNavClick(link.href)} className="text-sm font-body tracking-wide text-foreground/80 hover:text-primary transition-colors">
