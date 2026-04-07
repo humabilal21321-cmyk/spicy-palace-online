@@ -4,7 +4,7 @@ import { motion } from "framer-motion";
 import { Lock, Eye, EyeOff } from "lucide-react";
 import { toast } from "sonner";
 
-const ADMIN_PASS = "hotspicy2024";
+const ADMIN_PASS = "hotspicy2026";
 
 export default function AdminLoginPage() {
   const [password, setPassword] = useState("");
