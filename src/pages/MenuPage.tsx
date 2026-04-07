@@ -1,18 +1,23 @@
-import { useState } from "react";
+import { useState, useRef } from "react";
 import { menuItems, categories } from "@/lib/menu-data";
 import MenuCard from "@/components/MenuCard";
 import { motion } from "framer-motion";
-import { Search } from "lucide-react";
+import { Search, ChevronLeft, ChevronRight } from "lucide-react";
 
 export default function MenuPage() {
   const [active, setActive] = useState("All");
   const [search, setSearch] = useState("");
+  const scrollRef = useRef<HTMLDivElement>(null);
 
   const filtered = menuItems.filter(item => {
     const matchCat = active === "All" || item.category === active;
     const matchSearch = item.name.toLowerCase().includes(search.toLowerCase());
     return matchCat && matchSearch;
   });
+
+  const scroll = (dir: number) => {
+    scrollRef.current?.scrollBy({ left: dir * 200, behavior: "smooth" });
+  };
 
   return (
     <div className="pt-20 min-h-screen bg-gradient-dark">
@@ -28,13 +33,21 @@ export default function MenuPage() {
           <input value={search} onChange={e => setSearch(e.target.value)} placeholder="Search dishes..." className="w-full bg-card border border-gold/10 rounded-full pl-10 pr-4 py-3 font-body text-sm text-foreground placeholder:text-muted-foreground focus:outline-none focus:ring-2 focus:ring-primary/50" />
         </div>
 
-        {/* Categories */}
-        <div className="flex flex-wrap justify-center gap-2 mb-10">
-          {categories.map(cat => (
-            <button key={cat} onClick={() => setActive(cat)} className={`px-4 py-2 rounded-full font-body text-sm font-bold transition-all ${active === cat ? "bg-gradient-gold text-primary-foreground" : "bg-card border border-gold/10 text-muted-foreground hover:text-foreground"}`}>
-              {cat}
-            </button>
-          ))}
+        {/* Categories with scroll */}
+        <div className="relative mb-10">
+          <button onClick={() => scroll(-1)} className="absolute left-0 top-1/2 -translate-y-1/2 z-10 w-8 h-8 bg-card border border-gold/10 rounded-full flex items-center justify-center text-muted-foreground hover:text-foreground md:hidden">
+            <ChevronLeft className="h-4 w-4" />
+          </button>
+          <div ref={scrollRef} className="flex gap-2 overflow-x-auto scrollbar-hide px-8 md:px-0 md:flex-wrap md:justify-center">
+            {categories.map(cat => (
+              <button key={cat} onClick={() => setActive(cat)} className={`whitespace-nowrap px-4 py-2 rounded-full font-body text-sm font-bold transition-all shrink-0 ${active === cat ? "bg-gradient-gold text-primary-foreground" : "bg-card border border-gold/10 text-muted-foreground hover:text-foreground"}`}>
+                {cat}
+              </button>
+            ))}
+          </div>
+          <button onClick={() => scroll(1)} className="absolute right-0 top-1/2 -translate-y-1/2 z-10 w-8 h-8 bg-card border border-gold/10 rounded-full flex items-center justify-center text-muted-foreground hover:text-foreground md:hidden">
+            <ChevronRight className="h-4 w-4" />
+          </button>
         </div>
 
         {/* Grid */}
