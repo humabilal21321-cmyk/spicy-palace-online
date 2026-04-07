@@ -47,7 +47,7 @@ export default function CheckoutPage() {
     const whatsappMsg = encodeURIComponent(
       `🔔 New Order!\nOrder ID: ${id}\nCustomer: ${form.name}\nPhone: ${form.phone}\nAddress: ${form.address}, ${form.city}\nItems: ${itemsList}\nTotal: Rs. ${total.toLocaleString()}\nPayment: ${payment}`
     );
-    window.open(`https://wa.me/92300123457?text=${whatsappMsg}`, "_blank");
+    window.open(`https://wa.me/923155955613?text=${whatsappMsg}`, "_blank");
 
     setOrderId(id);
     setStatus("success");
