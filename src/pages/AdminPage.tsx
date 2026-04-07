@@ -25,13 +25,13 @@ export default function AdminPage() {
   const { orders, updateOrderStatus } = useOrders();
 
   useEffect(() => {
-    if (sessionStorage.getItem("walkano_admin") !== "true") {
+    if (sessionStorage.getItem("hotspicy_admin") !== "true") {
       navigate("/admin-login");
     }
   }, [navigate]);
 
   const handleLogout = () => {
-    sessionStorage.removeItem("walkano_admin");
+    sessionStorage.removeItem("hotspicy_admin");
     navigate("/admin-login");
   };
 
