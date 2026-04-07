@@ -48,8 +48,12 @@ export const OrderProvider: React.FC<{ children: React.ReactNode }> = ({ childre
     setOrders(prev => prev.map(o => o.id === id ? { ...o, orderStatus: status } : o));
   }, []);
 
+  const deleteOrder = useCallback((id: string) => {
+    setOrders(prev => prev.filter(o => o.id !== id));
+  }, []);
+
   return (
-    <OrderContext.Provider value={{ orders, addOrder, updateOrderStatus }}>
+    <OrderContext.Provider value={{ orders, addOrder, updateOrderStatus, deleteOrder }}>
       {children}
     </OrderContext.Provider>
   );
