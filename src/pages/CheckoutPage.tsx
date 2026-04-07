@@ -1,8 +1,10 @@
 import { useState } from "react";
 import { useCart } from "@/context/CartContext";
+import { useOrders } from "@/context/OrderContext";
 import { motion } from "framer-motion";
 import { CheckCircle, ArrowLeft } from "lucide-react";
 import { Link } from "react-router-dom";
+import type { Order } from "@/context/OrderContext";
 
 type Status = "form" | "success";
 
@@ -11,6 +13,7 @@ const cities = ["Rawalpindi", "Islamabad"];
 
 export default function CheckoutPage() {
   const { items, total, clearCart } = useCart();
+  const { addOrder } = useOrders();
   const [form, setForm] = useState({ name: "", phone: "", address: "", city: "Rawalpindi" });
   const [payment, setPayment] = useState("Cash on Delivery");
   const [status, setStatus] = useState<Status>("form");
@@ -22,6 +25,30 @@ export default function CheckoutPage() {
     if (items.length === 0) return;
 
     const id = "WK-" + Math.random().toString(36).substring(2, 8).toUpperCase();
+    
+    const order: Order = {
+      id,
+      customerName: form.name,
+      phone: form.phone,
+      address: form.address,
+      city: form.city,
+      items: [...items],
+      total,
+      paymentMethod: payment,
+      paymentStatus: payment === "Cash on Delivery" ? "Pending" : "Paid",
+      orderStatus: "Pending",
+      createdAt: new Date().toISOString(),
+    };
+
+    addOrder(order);
+
+    // Send WhatsApp notification to admin
+    const itemsList = items.map(i => `${i.name} x${i.quantity}`).join(", ");
+    const whatsappMsg = encodeURIComponent(
+      `🔔 New Order!\nOrder ID: ${id}\nCustomer: ${form.name}\nPhone: ${form.phone}\nAddress: ${form.address}, ${form.city}\nItems: ${itemsList}\nTotal: Rs. ${total.toLocaleString()}\nPayment: ${payment}`
+    );
+    window.open(`https://wa.me/92300123457?text=${whatsappMsg}`, "_blank");
+
     setOrderId(id);
     setStatus("success");
     clearCart();
@@ -88,7 +115,7 @@ export default function CheckoutPage() {
               <div className="md:col-span-2">
                 <div className="bg-card border border-gold/10 rounded-xl p-6 sticky top-24">
                   <h3 className="font-heading font-bold text-foreground text-lg mb-4">Order Summary</h3>
-                  <div className="space-y-3 mb-4">
+                  <div className="space-y-3 max-h-64 overflow-y-auto mb-4">
                     {items.map(item => (
                       <div key={item.id} className="flex justify-between text-sm font-body">
                         <span className="text-foreground">{item.name} × {item.quantity}</span>
