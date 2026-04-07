@@ -20,13 +20,14 @@ export default function Footer() {
             <Link to="/" className="text-muted-foreground hover:text-primary text-sm font-body transition-colors">Home</Link>
             <Link to="/menu" className="text-muted-foreground hover:text-primary text-sm font-body transition-colors">Menu</Link>
             <Link to="/checkout" className="text-muted-foreground hover:text-primary text-sm font-body transition-colors">Order Now</Link>
+            <Link to="/admin-login" className="text-muted-foreground hover:text-primary text-sm font-body transition-colors">Admin</Link>
           </div>
         </div>
         <div>
           <h4 className="font-heading font-bold text-foreground mb-4">Contact</h4>
           <div className="space-y-2 text-sm text-muted-foreground font-body">
-            <p className="flex items-center gap-2"><MapPin className="h-4 w-4 text-primary" /> Saddar, Rawalpindi, Pakistan</p>
-            <p className="flex items-center gap-2"><Phone className="h-4 w-4 text-primary" /> +92 300 1234567</p>
+            <p className="flex items-start gap-2"><MapPin className="h-4 w-4 text-primary mt-0.5 shrink-0" /> Shop #1&2, PZ Commercial, Gulshanabad, Adyala Road, Rawalpindi</p>
+            <p className="flex items-center gap-2"><Phone className="h-4 w-4 text-primary shrink-0" /> 0326-0759528 | 0315-5955613</p>
             <p className="flex items-center gap-2"><Mail className="h-4 w-4 text-primary" /> info@walkano.pk</p>
             <p className="flex items-center gap-2"><Clock className="h-4 w-4 text-primary" /> 11:00 AM – 1:00 AM</p>
           </div>
