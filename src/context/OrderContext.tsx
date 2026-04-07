@@ -11,7 +11,7 @@ export interface Order {
   total: number;
   paymentMethod: string;
   paymentStatus: "Paid" | "Pending";
-  orderStatus: "Pending" | "Preparing" | "Out for Delivery" | "Delivered";
+  orderStatus: "Pending" | "Confirmed" | "Preparing" | "Out for Delivery" | "Delivered" | "Cancelled";
   createdAt: string;
 }
 
@@ -19,6 +19,7 @@ interface OrderContextType {
   orders: Order[];
   addOrder: (order: Order) => void;
   updateOrderStatus: (id: string, status: Order["orderStatus"]) => void;
+  deleteOrder: (id: string) => void;
 }
 
 const OrderContext = createContext<OrderContextType | undefined>(undefined);
