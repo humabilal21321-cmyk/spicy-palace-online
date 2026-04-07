@@ -29,13 +29,13 @@ export default function HomePage() {
       {/* Hero */}
       <section className="relative min-h-screen flex items-center justify-center overflow-hidden">
         <div className="absolute inset-0">
-          <img src="https://images.unsplash.com/photo-1561758033-d89a9ad46330?w=1920&h=1080&fit=crop" alt="Walkano fast food" className="w-full h-full object-cover" />
+          <img src="https://images.unsplash.com/photo-1561758033-d89a9ad46330?w=1920&h=1080&fit=crop" alt="Hot & Spicy fast food" className="w-full h-full object-cover" />
           <div className="absolute inset-0 bg-background/80" />
         </div>
         <div className="relative z-10 container mx-auto px-4 text-center">
           <motion.div initial={{ opacity: 0, y: 30 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.8 }}>
             <h1 className="font-heading text-5xl md:text-7xl font-bold text-foreground mb-4">
-              <span className="text-gradient-gold">Walkano</span>
+              <span className="text-gradient-gold">Hot & Spicy</span>
             </h1>
             <p className="font-body text-lg md:text-xl text-muted-foreground max-w-2xl mx-auto mb-8">
               Delicious Fast Food Delivered to Your Doorstep
@@ -93,15 +93,15 @@ export default function HomePage() {
       <section id="about" className="py-20">
         <div className="container mx-auto px-4 grid md:grid-cols-2 gap-12 items-center">
           <motion.div initial={{ opacity: 0, x: -30 }} whileInView={{ opacity: 1, x: 0 }} viewport={{ once: true }}>
-            <img src="https://images.unsplash.com/photo-1552566626-52f8b828add9?w=600&h=500&fit=crop" alt="Walkano restaurant" className="rounded-xl glow-gold" />
+            <img src="https://images.unsplash.com/photo-1552566626-52f8b828add9?w=600&h=500&fit=crop" alt="Hot & Spicy restaurant" className="rounded-xl glow-gold" />
           </motion.div>
           <motion.div initial={{ opacity: 0, x: 30 }} whileInView={{ opacity: 1, x: 0 }} viewport={{ once: true }}>
             <h2 className="font-heading text-3xl md:text-4xl font-bold text-gradient-gold mb-6">Our Story</h2>
             <p className="text-muted-foreground font-body leading-relaxed mb-4">
-              <strong className="text-foreground">Walkano</strong> was born from a simple idea — bring the tastiest, most affordable fast food to the people of Rawalpindi and Islamabad.
+              <strong className="text-foreground">Hot & Spicy</strong> was born from a simple idea — bring the tastiest, most affordable fast food to the people of Rawalpindi and Islamabad.
             </p>
             <p className="text-muted-foreground font-body leading-relaxed mb-6">
-              From our signature Zinger Burgers to our loaded pizzas, every item is crafted with fresh ingredients and bold flavors. We believe great food shouldn't cost a fortune — and that's the Walkano promise: unbeatable taste at unbeatable prices, whether you dine in, take away, or order delivery.
+              From our signature Zinger Burgers to our loaded pizzas, every item is crafted with fresh ingredients and bold flavors. We believe great food shouldn't cost a fortune — and that's the Hot & Spicy promise: unbeatable taste at unbeatable prices, whether you dine in, take away, or order delivery.
             </p>
             <div className="flex gap-8">
               <div className="text-center">
@@ -172,13 +172,13 @@ export default function HomePage() {
             <div className="space-y-4 font-body text-muted-foreground">
               <p className="flex items-center gap-3"><MapPin className="h-5 w-5 text-primary" /> Shop #1&2, PZ Commercial, MR1, Gulshanabad, Adyala Road, Near Bank Al Habib, Rawalpindi</p>
               <p className="flex items-center gap-3"><Phone className="h-5 w-5 text-primary" /> 0326-0759528 | 0315-5955613 | 0315-5955183</p>
-              <p className="flex items-center gap-3"><Mail className="h-5 w-5 text-primary" /> info@walkano.pk</p>
+              <p className="flex items-center gap-3"><Mail className="h-5 w-5 text-primary" /> info@hotspicy.pk</p>
               <p className="flex items-center gap-3"><Clock className="h-5 w-5 text-primary" /> 11:00 AM – 1:00 AM (Daily)</p>
             </div>
           </div>
           <div className="rounded-xl overflow-hidden border border-gold/10 h-64 md:h-auto">
             <iframe
-              title="Walkano Location"
+              title="Hot & Spicy Location"
               src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3322.5!2d73.047!3d33.6!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x0%3A0x0!2zMzPCsDM2JzAwLjAiTiA3M8KwMDInNDkuMiJF!5e0!3m2!1sen!2s!4v1"
               width="100%"
               height="100%"

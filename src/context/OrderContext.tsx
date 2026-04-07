@@ -23,7 +23,7 @@ interface OrderContextType {
 
 const OrderContext = createContext<OrderContextType | undefined>(undefined);
 
-const STORAGE_KEY = "walkano_orders";
+const STORAGE_KEY = "hotspicy_orders";
 
 export const OrderProvider: React.FC<{ children: React.ReactNode }> = ({ children }) => {
   const [orders, setOrders] = useState<Order[]>(() => {

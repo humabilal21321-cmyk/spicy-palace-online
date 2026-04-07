@@ -24,7 +24,7 @@ export default function CheckoutPage() {
     if (!form.name || !form.phone || !form.address) return;
     if (items.length === 0) return;
 
-    const id = "WK-" + Math.random().toString(36).substring(2, 8).toUpperCase();
+    const id = "HS-" + Math.random().toString(36).substring(2, 8).toUpperCase();
     
     const order: Order = {
       id,

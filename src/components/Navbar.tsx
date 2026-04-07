@@ -36,7 +36,7 @@ export default function Navbar() {
       <div className="container mx-auto px-4 flex items-center justify-between h-16 md:h-20">
         <Link to="/" className="flex items-center gap-2">
           <UtensilsCrossed className="h-7 w-7 text-primary" />
-          <span className="font-heading text-xl md:text-2xl font-bold text-gradient-gold">Walkano</span>
+          <span className="font-heading text-xl md:text-2xl font-bold text-gradient-gold">Hot & Spicy</span>
         </Link>
 
         {/* Desktop */}

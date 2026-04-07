@@ -4,7 +4,7 @@ import { motion } from "framer-motion";
 import { Lock, Eye, EyeOff } from "lucide-react";
 import { toast } from "sonner";
 
-const ADMIN_PASS = "walkano2024";
+const ADMIN_PASS = "hotspicy2024";
 
 export default function AdminLoginPage() {
   const [password, setPassword] = useState("");
@@ -14,7 +14,7 @@ export default function AdminLoginPage() {
   const handleLogin = (e: React.FormEvent) => {
     e.preventDefault();
     if (password === ADMIN_PASS) {
-      sessionStorage.setItem("walkano_admin", "true");
+      sessionStorage.setItem("hotspicy_admin", "true");
       toast.success("Welcome, Admin!");
       navigate("/admin");
     } else {
