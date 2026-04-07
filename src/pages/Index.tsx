@@ -106,7 +106,7 @@ export default function HomePage() {
             <div className="flex gap-8">
               <div className="text-center">
                 <UtensilsCrossed className="h-8 w-8 text-primary mx-auto mb-2" />
-                <span className="font-heading font-bold text-2xl text-foreground">20+</span>
+                <span className="font-heading font-bold text-2xl text-foreground">200+</span>
                 <p className="text-xs text-muted-foreground font-body">Menu Items</p>
               </div>
               <div className="text-center">
@@ -170,8 +170,8 @@ export default function HomePage() {
           <div>
             <h2 className="font-heading text-3xl md:text-4xl font-bold text-gradient-gold mb-6">Find Us</h2>
             <div className="space-y-4 font-body text-muted-foreground">
-              <p className="flex items-center gap-3"><MapPin className="h-5 w-5 text-primary" /> Saddar Road, Rawalpindi, Punjab, Pakistan</p>
-              <p className="flex items-center gap-3"><Phone className="h-5 w-5 text-primary" /> +92 300 1234567</p>
+              <p className="flex items-center gap-3"><MapPin className="h-5 w-5 text-primary" /> Shop #1&2, PZ Commercial, MR1, Gulshanabad, Adyala Road, Near Bank Al Habib, Rawalpindi</p>
+              <p className="flex items-center gap-3"><Phone className="h-5 w-5 text-primary" /> 0326-0759528 | 0315-5955613 | 0315-5955183</p>
               <p className="flex items-center gap-3"><Mail className="h-5 w-5 text-primary" /> info@walkano.pk</p>
               <p className="flex items-center gap-3"><Clock className="h-5 w-5 text-primary" /> 11:00 AM – 1:00 AM (Daily)</p>
             </div>
