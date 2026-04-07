@@ -11,7 +11,7 @@ export interface Order {
   total: number;
   paymentMethod: string;
   paymentStatus: "Paid" | "Pending";
-  orderStatus: "Pending" | "Preparing" | "Out for Delivery" | "Delivered";
+  orderStatus: "Pending" | "Confirmed" | "Preparing" | "Out for Delivery" | "Delivered" | "Cancelled";
   createdAt: string;
 }
 
@@ -19,6 +19,7 @@ interface OrderContextType {
   orders: Order[];
   addOrder: (order: Order) => void;
   updateOrderStatus: (id: string, status: Order["orderStatus"]) => void;
+  deleteOrder: (id: string) => void;
 }
 
 const OrderContext = createContext<OrderContextType | undefined>(undefined);
@@ -47,8 +48,12 @@ export const OrderProvider: React.FC<{ children: React.ReactNode }> = ({ childre
     setOrders(prev => prev.map(o => o.id === id ? { ...o, orderStatus: status } : o));
   }, []);
 
+  const deleteOrder = useCallback((id: string) => {
+    setOrders(prev => prev.filter(o => o.id !== id));
+  }, []);
+
   return (
-    <OrderContext.Provider value={{ orders, addOrder, updateOrderStatus }}>
+    <OrderContext.Provider value={{ orders, addOrder, updateOrderStatus, deleteOrder }}>
       {children}
     </OrderContext.Provider>
   );
