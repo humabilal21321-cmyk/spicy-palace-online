@@ -1,10 +1,11 @@
 import { useState, useRef } from "react";
-import { menuItems, categories } from "@/lib/menu-data";
+import { useMenu } from "@/context/MenuContext";
 import MenuCard from "@/components/MenuCard";
 import { motion } from "framer-motion";
 import { Search, ChevronLeft, ChevronRight } from "lucide-react";
 
 export default function MenuPage() {
+  const { menuItems, categories } = useMenu();
   const [active, setActive] = useState("All");
   const [search, setSearch] = useState("");
   const scrollRef = useRef<HTMLDivElement>(null);
@@ -27,13 +28,11 @@ export default function MenuPage() {
           <p className="text-muted-foreground font-body">Discover our culinary masterpieces</p>
         </motion.div>
 
-        {/* Search */}
         <div className="max-w-md mx-auto mb-8 relative">
           <Search className="absolute left-4 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground" />
           <input value={search} onChange={e => setSearch(e.target.value)} placeholder="Search dishes..." className="w-full bg-card border border-gold/10 rounded-full pl-10 pr-4 py-3 font-body text-sm text-foreground placeholder:text-muted-foreground focus:outline-none focus:ring-2 focus:ring-primary/50" />
         </div>
 
-        {/* Categories with scroll */}
         <div className="relative mb-10">
           <button onClick={() => scroll(-1)} className="absolute left-0 top-1/2 -translate-y-1/2 z-10 w-8 h-8 bg-card border border-gold/10 rounded-full flex items-center justify-center text-muted-foreground hover:text-foreground md:hidden">
             <ChevronLeft className="h-4 w-4" />
@@ -50,7 +49,6 @@ export default function MenuPage() {
           </button>
         </div>
 
-        {/* Grid */}
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
           {filtered.map(item => <MenuCard key={item.id} item={item} />)}
         </div>
