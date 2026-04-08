@@ -9,21 +9,21 @@ export default function AdminAnalytics() {
   const { orders } = useOrders();
   const [period, setPeriod] = useState<"daily" | "weekly" | "monthly">("daily");
 
-  const activeOrders = orders.filter(o => o.orderStatus !== "Cancelled");
-  const totalRevenue = activeOrders.reduce((s, o) => s + o.total, 0);
+  const activeOrders = orders.filter(o => o.order_status !== "Cancelled");
+  const totalRevenue = activeOrders.reduce((s, o) => s + o.total_price, 0);
   const avgOrderValue = activeOrders.length ? Math.round(totalRevenue / activeOrders.length) : 0;
 
   // Group by date
   const revenueByDate: Record<string, number> = {};
   activeOrders.forEach(o => {
-    const d = new Date(o.createdAt);
+    const d = new Date(o.created_at);
     let key: string;
     if (period === "daily") key = d.toLocaleDateString();
     else if (period === "weekly") {
       const week = Math.ceil(d.getDate() / 7);
       key = `Week ${week}, ${d.toLocaleDateString("en", { month: "short" })}`;
     } else key = d.toLocaleDateString("en", { month: "short", year: "numeric" });
-    revenueByDate[key] = (revenueByDate[key] || 0) + o.total;
+    revenueByDate[key] = (revenueByDate[key] || 0) + o.total_price;
   });
   const revenueData = Object.entries(revenueByDate).map(([name, revenue]) => ({ name, revenue }));
 
@@ -34,7 +34,7 @@ export default function AdminAnalytics() {
 
   // Status distribution
   const statusCounts: Record<string, number> = {};
-  orders.forEach(o => { statusCounts[o.orderStatus] = (statusCounts[o.orderStatus] || 0) + 1; });
+  orders.forEach(o => { statusCounts[o.order_status] = (statusCounts[o.order_status] || 0) + 1; });
   const statusData = Object.entries(statusCounts).map(([name, value]) => ({ name, value }));
 
   return (

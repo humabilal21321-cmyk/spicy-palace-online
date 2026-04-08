@@ -39,7 +39,7 @@ export default function AdminPage() {
     navigate("/admin-login");
   };
 
-  const revenue = orders.filter(o => o.orderStatus !== "Cancelled").reduce((s, o) => s + o.total, 0);
+  const revenue = orders.filter(o => o.order_status !== "Cancelled").reduce((s, o) => s + o.total_price, 0);
 
   return (
     <div className="pt-20 min-h-screen bg-gradient-dark">
@@ -58,8 +58,8 @@ export default function AdminPage() {
         <div className="grid grid-cols-2 md:grid-cols-4 gap-3 mb-6">
           {[
             { label: "Orders", value: orders.length, icon: <Package className="h-4 w-4" />, color: "text-primary" },
-            { label: "Pending", value: orders.filter(o => o.orderStatus === "Pending").length, icon: <Clock className="h-4 w-4" />, color: "text-yellow-400" },
-            { label: "Delivered", value: orders.filter(o => o.orderStatus === "Delivered").length, icon: <CheckCircle className="h-4 w-4" />, color: "text-green-400" },
+            { label: "Pending", value: orders.filter(o => o.order_status === "Pending").length, icon: <Clock className="h-4 w-4" />, color: "text-yellow-400" },
+            { label: "Delivered", value: orders.filter(o => o.order_status === "Delivered").length, icon: <CheckCircle className="h-4 w-4" />, color: "text-green-400" },
             { label: "Revenue", value: `Rs. ${revenue.toLocaleString()}`, icon: <BarChart3 className="h-4 w-4" />, color: "text-primary" },
           ].map(s => (
             <div key={s.label} className="bg-card border border-gold/10 rounded-xl p-3">
