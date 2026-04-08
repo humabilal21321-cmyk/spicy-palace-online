@@ -2,14 +2,24 @@ import { useState } from "react";
 import { useCart } from "@/context/CartContext";
 import { useOrders } from "@/context/OrderContext";
 import { motion } from "framer-motion";
-import { CheckCircle, ArrowLeft } from "lucide-react";
+import { CheckCircle, ArrowLeft, CalendarIcon, Clock } from "lucide-react";
 import { Link } from "react-router-dom";
-import type { Order } from "@/context/OrderContext";
+import { format } from "date-fns";
+import { Calendar } from "@/components/ui/calendar";
+import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover";
+import { cn } from "@/lib/utils";
+import { toast } from "sonner";
 
-type Status = "form" | "success";
+type Status = "form" | "submitting" | "success";
 
 const paymentMethods = ["Cash on Delivery", "Credit/Debit Card", "PayFast", "Stripe", "JazzCash", "Easypaisa"];
 const cities = ["Rawalpindi", "Islamabad"];
+const timeSlots = [
+  "12:00 PM", "12:30 PM", "1:00 PM", "1:30 PM", "2:00 PM", "2:30 PM",
+  "3:00 PM", "3:30 PM", "4:00 PM", "4:30 PM", "5:00 PM", "5:30 PM",
+  "6:00 PM", "6:30 PM", "7:00 PM", "7:30 PM", "8:00 PM", "8:30 PM",
+  "9:00 PM", "9:30 PM", "10:00 PM", "10:30 PM", "11:00 PM",
+];
 
 export default function CheckoutPage() {
   const { items, total, clearCart } = useCart();
@@ -18,38 +28,48 @@ export default function CheckoutPage() {
   const [payment, setPayment] = useState("Cash on Delivery");
   const [status, setStatus] = useState<Status>("form");
   const [orderId, setOrderId] = useState("");
+  const [bookingDate, setBookingDate] = useState<Date | undefined>();
+  const [bookingTime, setBookingTime] = useState("");
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     if (!form.name || !form.phone || !form.address) return;
     if (items.length === 0) return;
 
-    const id = "HS-" + Math.random().toString(36).substring(2, 8).toUpperCase();
-    
-    const order: Order = {
-      id,
-      customerName: form.name,
+    setStatus("submitting");
+
+    const orderCode = "HS-" + Math.random().toString(36).substring(2, 8).toUpperCase();
+
+    const order = await addOrder({
+      order_code: orderCode,
+      customer_name: form.name,
       phone: form.phone,
       address: form.address,
       city: form.city,
-      items: [...items],
-      total,
-      paymentMethod: payment,
-      paymentStatus: payment === "Cash on Delivery" ? "Pending" : "Paid",
-      orderStatus: "Pending",
-      createdAt: new Date().toISOString(),
-    };
+      items: items.map(i => ({ id: i.id, name: i.name, price: i.price, quantity: i.quantity })),
+      total_price: total,
+      payment_method: payment,
+      payment_status: payment === "Cash on Delivery" ? "Pending" : "Paid",
+      order_status: "Pending",
+      booking_date: bookingDate ? format(bookingDate, "yyyy-MM-dd") : null,
+      booking_time: bookingTime || null,
+    });
 
-    addOrder(order);
+    if (!order) {
+      toast.error("Failed to place order. Please try again.");
+      setStatus("form");
+      return;
+    }
 
     // Send WhatsApp notification to admin
     const itemsList = items.map(i => `${i.name} x${i.quantity}`).join(", ");
+    const dateInfo = bookingDate ? `\nBooking: ${format(bookingDate, "PPP")} ${bookingTime}` : "";
     const whatsappMsg = encodeURIComponent(
-      `🔔 New Order!\nOrder ID: ${id}\nCustomer: ${form.name}\nPhone: ${form.phone}\nAddress: ${form.address}, ${form.city}\nItems: ${itemsList}\nTotal: Rs. ${total.toLocaleString()}\nPayment: ${payment}`
+      `🔔 New Order!\nOrder ID: ${orderCode}\nCustomer: ${form.name}\nPhone: ${form.phone}\nAddress: ${form.address}, ${form.city}\nItems: ${itemsList}\nTotal: Rs. ${total.toLocaleString()}\nPayment: ${payment}${dateInfo}`
     );
     window.open(`https://wa.me/923155955613?text=${whatsappMsg}`, "_blank");
 
-    setOrderId(id);
+    setOrderId(orderCode);
     setStatus("success");
     clearCart();
   };
@@ -96,6 +116,45 @@ export default function CheckoutPage() {
                   </select>
                 </div>
 
+                {/* Booking Date & Time */}
+                <div className="bg-card border border-gold/10 rounded-xl p-6 space-y-4">
+                  <h3 className="font-heading font-bold text-foreground text-lg flex items-center gap-2">
+                    <CalendarIcon className="h-5 w-5 text-primary" /> Booking Slot (Optional)
+                  </h3>
+                  <div className="grid grid-cols-2 gap-3">
+                    <Popover>
+                      <PopoverTrigger asChild>
+                        <button type="button" className={cn(
+                          "w-full bg-secondary/50 border border-gold/10 rounded-lg px-4 py-3 font-body text-sm text-left focus:outline-none focus:ring-2 focus:ring-primary/50",
+                          bookingDate ? "text-foreground" : "text-muted-foreground"
+                        )}>
+                          <CalendarIcon className="inline h-4 w-4 mr-2" />
+                          {bookingDate ? format(bookingDate, "PPP") : "Select date"}
+                        </button>
+                      </PopoverTrigger>
+                      <PopoverContent className="w-auto p-0" align="start">
+                        <Calendar
+                          mode="single"
+                          selected={bookingDate}
+                          onSelect={setBookingDate}
+                          disabled={(date) => date < new Date()}
+                          initialFocus
+                          className={cn("p-3 pointer-events-auto")}
+                        />
+                      </PopoverContent>
+                    </Popover>
+
+                    <select
+                      value={bookingTime}
+                      onChange={e => setBookingTime(e.target.value)}
+                      className="w-full bg-secondary/50 border border-gold/10 rounded-lg px-4 py-3 font-body text-sm text-foreground focus:outline-none focus:ring-2 focus:ring-primary/50"
+                    >
+                      <option value="">Select time</option>
+                      {timeSlots.map(t => <option key={t} value={t}>{t}</option>)}
+                    </select>
+                  </div>
+                </div>
+
                 <div className="bg-card border border-gold/10 rounded-xl p-6 space-y-3">
                   <h3 className="font-heading font-bold text-foreground text-lg">Payment Method</h3>
                   <div className="grid grid-cols-2 gap-2">
@@ -107,8 +166,8 @@ export default function CheckoutPage() {
                   </div>
                 </div>
 
-                <button type="submit" className="w-full bg-gradient-gold text-primary-foreground py-3.5 rounded-lg font-body font-bold text-lg hover:opacity-90 transition-opacity">
-                  Place Order — Rs. {total.toLocaleString()}
+                <button type="submit" disabled={status === "submitting"} className="w-full bg-gradient-gold text-primary-foreground py-3.5 rounded-lg font-body font-bold text-lg hover:opacity-90 transition-opacity disabled:opacity-50">
+                  {status === "submitting" ? "Placing Order..." : `Place Order — Rs. ${total.toLocaleString()}`}
                 </button>
               </form>
 
