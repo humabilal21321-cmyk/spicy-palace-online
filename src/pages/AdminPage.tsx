@@ -3,7 +3,7 @@ import { useNavigate } from "react-router-dom";
 import { useOrders } from "@/context/OrderContext";
 import { supabase } from "@/integrations/supabase/client";
 import { motion } from "framer-motion";
-import { LogOut, Package, Clock, CheckCircle, BarChart3, UtensilsCrossed, CalendarDays, Warehouse, Users, MessageSquare, Loader2 } from "lucide-react";
+import { LogOut, Package, Clock, CheckCircle, BarChart3, UtensilsCrossed, CalendarDays, Warehouse, Users, MessageSquare, Loader2, Bike } from "lucide-react";
 import AdminOrders from "@/components/admin/AdminOrders";
 import AdminMenu from "@/components/admin/AdminMenu";
 import AdminAnalytics from "@/components/admin/AdminAnalytics";
@@ -11,6 +11,7 @@ import AdminReservations from "@/components/admin/AdminReservations";
 import AdminInventory from "@/components/admin/AdminInventory";
 import AdminStaff from "@/components/admin/AdminStaff";
 import AdminReviews from "@/components/admin/AdminReviews";
+import AdminDelivery from "@/components/admin/AdminDelivery";
 
 const tabs = [
   { id: "orders", label: "Orders", icon: <Package className="h-4 w-4" /> },
@@ -20,6 +21,7 @@ const tabs = [
   { id: "inventory", label: "Inventory", icon: <Warehouse className="h-4 w-4" /> },
   { id: "staff", label: "Staff", icon: <Users className="h-4 w-4" /> },
   { id: "reviews", label: "Reviews", icon: <MessageSquare className="h-4 w-4" /> },
+  { id: "delivery", label: "Delivery", icon: <Bike className="h-4 w-4" /> },
 ] as const;
 
 type TabId = typeof tabs[number]["id"];
@@ -116,6 +118,7 @@ export default function AdminPage() {
           {activeTab === "inventory" && <AdminInventory />}
           {activeTab === "staff" && <AdminStaff />}
           {activeTab === "reviews" && <AdminReviews />}
+          {activeTab === "delivery" && <AdminDelivery />}
         </motion.div>
       </div>
     </div>

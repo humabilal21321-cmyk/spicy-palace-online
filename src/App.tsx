@@ -10,6 +10,7 @@ import { ReservationProvider } from "@/context/ReservationContext";
 import { InventoryProvider } from "@/context/InventoryContext";
 import { StaffProvider } from "@/context/StaffContext";
 import { ReviewProvider } from "@/context/ReviewContext";
+import { DeliveryProvider } from "@/context/DeliveryContext";
 import Navbar from "@/components/Navbar";
 import CartSidebar from "@/components/CartSidebar";
 import WhatsAppButton from "@/components/WhatsAppButton";
@@ -19,6 +20,8 @@ import MenuPage from "./pages/MenuPage";
 import CheckoutPage from "./pages/CheckoutPage";
 import AdminLoginPage from "./pages/AdminLoginPage";
 import AdminPage from "./pages/AdminPage";
+import DeliveryLoginPage from "./pages/DeliveryLoginPage";
+import DeliveryDashboard from "./pages/DeliveryDashboard";
 import NotFound from "./pages/NotFound";
 
 const queryClient = new QueryClient();
@@ -32,24 +35,28 @@ const App = () => (
             <ReservationProvider>
               <InventoryProvider>
                 <StaffProvider>
-                  <ReviewProvider>
-                    <Toaster />
-                    <Sonner />
-                    <BrowserRouter>
-                      <Navbar />
-                      <CartSidebar />
-                      <WhatsAppButton />
-                      <Routes>
-                        <Route path="/" element={<Index />} />
-                        <Route path="/menu" element={<MenuPage />} />
-                        <Route path="/checkout" element={<CheckoutPage />} />
-                        <Route path="/admin-login" element={<AdminLoginPage />} />
-                        <Route path="/admin" element={<AdminPage />} />
-                        <Route path="*" element={<NotFound />} />
-                      </Routes>
-                      <Footer />
-                    </BrowserRouter>
-                  </ReviewProvider>
+                    <ReviewProvider>
+                      <DeliveryProvider>
+                        <Toaster />
+                        <Sonner />
+                        <BrowserRouter>
+                          <Navbar />
+                          <CartSidebar />
+                          <WhatsAppButton />
+                          <Routes>
+                            <Route path="/" element={<Index />} />
+                            <Route path="/menu" element={<MenuPage />} />
+                            <Route path="/checkout" element={<CheckoutPage />} />
+                            <Route path="/admin-login" element={<AdminLoginPage />} />
+                            <Route path="/admin" element={<AdminPage />} />
+                            <Route path="/delivery-login" element={<DeliveryLoginPage />} />
+                            <Route path="/delivery" element={<DeliveryDashboard />} />
+                            <Route path="*" element={<NotFound />} />
+                          </Routes>
+                          <Footer />
+                        </BrowserRouter>
+                      </DeliveryProvider>
+                    </ReviewProvider>
                 </StaffProvider>
               </InventoryProvider>
             </ReservationProvider>
