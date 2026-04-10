@@ -10,6 +10,7 @@ import { ReservationProvider } from "@/context/ReservationContext";
 import { InventoryProvider } from "@/context/InventoryContext";
 import { StaffProvider } from "@/context/StaffContext";
 import { ReviewProvider } from "@/context/ReviewContext";
+import { DeliveryProvider } from "@/context/DeliveryContext";
 import Navbar from "@/components/Navbar";
 import CartSidebar from "@/components/CartSidebar";
 import WhatsAppButton from "@/components/WhatsAppButton";
@@ -19,6 +20,8 @@ import MenuPage from "./pages/MenuPage";
 import CheckoutPage from "./pages/CheckoutPage";
 import AdminLoginPage from "./pages/AdminLoginPage";
 import AdminPage from "./pages/AdminPage";
+import DeliveryLoginPage from "./pages/DeliveryLoginPage";
+import DeliveryDashboard from "./pages/DeliveryDashboard";
 import NotFound from "./pages/NotFound";
 
 const queryClient = new QueryClient();
