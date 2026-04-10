@@ -35,24 +35,28 @@ const App = () => (
             <ReservationProvider>
               <InventoryProvider>
                 <StaffProvider>
-                  <ReviewProvider>
-                    <Toaster />
-                    <Sonner />
-                    <BrowserRouter>
-                      <Navbar />
-                      <CartSidebar />
-                      <WhatsAppButton />
-                      <Routes>
-                        <Route path="/" element={<Index />} />
-                        <Route path="/menu" element={<MenuPage />} />
-                        <Route path="/checkout" element={<CheckoutPage />} />
-                        <Route path="/admin-login" element={<AdminLoginPage />} />
-                        <Route path="/admin" element={<AdminPage />} />
-                        <Route path="*" element={<NotFound />} />
-                      </Routes>
-                      <Footer />
-                    </BrowserRouter>
-                  </ReviewProvider>
+                    <ReviewProvider>
+                      <DeliveryProvider>
+                        <Toaster />
+                        <Sonner />
+                        <BrowserRouter>
+                          <Navbar />
+                          <CartSidebar />
+                          <WhatsAppButton />
+                          <Routes>
+                            <Route path="/" element={<Index />} />
+                            <Route path="/menu" element={<MenuPage />} />
+                            <Route path="/checkout" element={<CheckoutPage />} />
+                            <Route path="/admin-login" element={<AdminLoginPage />} />
+                            <Route path="/admin" element={<AdminPage />} />
+                            <Route path="/delivery-login" element={<DeliveryLoginPage />} />
+                            <Route path="/delivery" element={<DeliveryDashboard />} />
+                            <Route path="*" element={<NotFound />} />
+                          </Routes>
+                          <Footer />
+                        </BrowserRouter>
+                      </DeliveryProvider>
+                    </ReviewProvider>
                 </StaffProvider>
               </InventoryProvider>
             </ReservationProvider>
