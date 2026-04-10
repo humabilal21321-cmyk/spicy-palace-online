@@ -1,8 +1,9 @@
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { useOrders } from "@/context/OrderContext";
+import { supabase } from "@/integrations/supabase/client";
 import { motion } from "framer-motion";
-import { LogOut, Package, Clock, Truck, CheckCircle, XCircle, ShieldCheck, BarChart3, UtensilsCrossed, CalendarDays, Warehouse, Users, MessageSquare, AlertCircle } from "lucide-react";
+import { LogOut, Package, Clock, CheckCircle, BarChart3, UtensilsCrossed, CalendarDays, Warehouse, Users, MessageSquare, Loader2 } from "lucide-react";
 import AdminOrders from "@/components/admin/AdminOrders";
 import AdminMenu from "@/components/admin/AdminMenu";
 import AdminAnalytics from "@/components/admin/AdminAnalytics";
@@ -27,24 +28,49 @@ export default function AdminPage() {
   const navigate = useNavigate();
   const { orders } = useOrders();
   const [activeTab, setActiveTab] = useState<TabId>("orders");
+  const [checking, setChecking] = useState(true);
 
   useEffect(() => {
-    if (sessionStorage.getItem("hotspicy_admin") !== "true") {
-      navigate("/admin-login");
-    }
+    const checkAdmin = async () => {
+      const { data: { session } } = await supabase.auth.getSession();
+      if (!session) {
+        navigate("/admin-login");
+        return;
+      }
+      const { data: roles } = await supabase
+        .from("user_roles")
+        .select("role")
+        .eq("user_id", session.user.id)
+        .eq("role", "admin");
+
+      if (!roles || roles.length === 0) {
+        await supabase.auth.signOut();
+        navigate("/admin-login");
+        return;
+      }
+      setChecking(false);
+    };
+    checkAdmin();
   }, [navigate]);
 
-  const handleLogout = () => {
-    sessionStorage.removeItem("hotspicy_admin");
+  const handleLogout = async () => {
+    await supabase.auth.signOut();
     navigate("/admin-login");
   };
+
+  if (checking) {
+    return (
+      <div className="pt-20 min-h-screen flex items-center justify-center bg-gradient-dark">
+        <Loader2 className="h-8 w-8 animate-spin text-primary" />
+      </div>
+    );
+  }
 
   const revenue = orders.filter(o => o.order_status !== "Cancelled").reduce((s, o) => s + o.total_price, 0);
 
   return (
     <div className="pt-20 min-h-screen bg-gradient-dark">
       <div className="container mx-auto px-4 py-8">
-        {/* Header */}
         <div className="flex items-center justify-between mb-6">
           <motion.h1 initial={{ opacity: 0 }} animate={{ opacity: 1 }} className="font-heading text-2xl md:text-3xl font-bold text-gradient-gold">
             Admin Dashboard
@@ -54,7 +80,6 @@ export default function AdminPage() {
           </button>
         </div>
 
-        {/* Quick Stats */}
         <div className="grid grid-cols-2 md:grid-cols-4 gap-3 mb-6">
           {[
             { label: "Orders", value: orders.length, icon: <Package className="h-4 w-4" />, color: "text-primary" },
@@ -70,7 +95,6 @@ export default function AdminPage() {
           ))}
         </div>
 
-        {/* Tabs */}
         <div className="flex items-center gap-1 mb-6 overflow-x-auto pb-2 scrollbar-hide">
           {tabs.map(tab => (
             <button key={tab.id} onClick={() => setActiveTab(tab.id)}
@@ -84,7 +108,6 @@ export default function AdminPage() {
           ))}
         </div>
 
-        {/* Tab Content */}
         <motion.div key={activeTab} initial={{ opacity: 0, y: 10 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.2 }}>
           {activeTab === "orders" && <AdminOrders />}
           {activeTab === "menu" && <AdminMenu />}
