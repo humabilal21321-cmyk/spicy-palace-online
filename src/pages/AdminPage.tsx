@@ -118,6 +118,7 @@ export default function AdminPage() {
           {activeTab === "inventory" && <AdminInventory />}
           {activeTab === "staff" && <AdminStaff />}
           {activeTab === "reviews" && <AdminReviews />}
+          {activeTab === "delivery" && <AdminDelivery />}
         </motion.div>
       </div>
     </div>
