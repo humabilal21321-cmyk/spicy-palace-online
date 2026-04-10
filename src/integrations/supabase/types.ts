@@ -14,6 +14,102 @@ export type Database = {
   }
   public: {
     Tables: {
+      delivery_assignments: {
+        Row: {
+          assigned_at: string
+          created_at: string
+          delivered_at: string | null
+          earnings: number
+          id: string
+          order_id: string
+          picked_up_at: string | null
+          rider_id: string
+          status: string
+          updated_at: string
+        }
+        Insert: {
+          assigned_at?: string
+          created_at?: string
+          delivered_at?: string | null
+          earnings?: number
+          id?: string
+          order_id: string
+          picked_up_at?: string | null
+          rider_id: string
+          status?: string
+          updated_at?: string
+        }
+        Update: {
+          assigned_at?: string
+          created_at?: string
+          delivered_at?: string | null
+          earnings?: number
+          id?: string
+          order_id?: string
+          picked_up_at?: string | null
+          rider_id?: string
+          status?: string
+          updated_at?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "delivery_assignments_order_id_fkey"
+            columns: ["order_id"]
+            isOneToOne: false
+            referencedRelation: "orders"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "delivery_assignments_rider_id_fkey"
+            columns: ["rider_id"]
+            isOneToOne: false
+            referencedRelation: "delivery_riders"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      delivery_riders: {
+        Row: {
+          created_at: string
+          id: string
+          is_approved: boolean
+          is_available: boolean
+          name: string
+          phone: string
+          total_deliveries: number
+          total_earnings: number
+          updated_at: string
+          user_id: string
+          vehicle_type: string
+        }
+        Insert: {
+          created_at?: string
+          id?: string
+          is_approved?: boolean
+          is_available?: boolean
+          name: string
+          phone: string
+          total_deliveries?: number
+          total_earnings?: number
+          updated_at?: string
+          user_id: string
+          vehicle_type?: string
+        }
+        Update: {
+          created_at?: string
+          id?: string
+          is_approved?: boolean
+          is_available?: boolean
+          name?: string
+          phone?: string
+          total_deliveries?: number
+          total_earnings?: number
+          updated_at?: string
+          user_id?: string
+          vehicle_type?: string
+        }
+        Relationships: []
+      }
       orders: {
         Row: {
           address: string
@@ -22,6 +118,7 @@ export type Database = {
           city: string
           created_at: string
           customer_name: string
+          delivery_status: string
           id: string
           items: Json
           order_code: string
@@ -39,6 +136,7 @@ export type Database = {
           city?: string
           created_at?: string
           customer_name: string
+          delivery_status?: string
           id?: string
           items?: Json
           order_code: string
@@ -56,6 +154,7 @@ export type Database = {
           city?: string
           created_at?: string
           customer_name?: string
+          delivery_status?: string
           id?: string
           items?: Json
           order_code?: string
@@ -100,7 +199,7 @@ export type Database = {
       }
     }
     Enums: {
-      app_role: "admin" | "moderator" | "user"
+      app_role: "admin" | "moderator" | "user" | "rider"
     }
     CompositeTypes: {
       [_ in never]: never
@@ -228,7 +327,7 @@ export type CompositeTypes<
 export const Constants = {
   public: {
     Enums: {
-      app_role: ["admin", "moderator", "user"],
+      app_role: ["admin", "moderator", "user", "rider"],
     },
   },
 } as const
